@@ -17,7 +17,7 @@
   },
   "BundleIdentifier": "letrasbr",
   "BundleType": "Application",
-  "BundleVersion": "0.0.2",
+  "BundleVersion": "1.0.0",
   "Dependencies": {
     "api": "1.0.0",
     "views": "1.10.0"
