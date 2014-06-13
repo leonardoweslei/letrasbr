@@ -8,6 +8,7 @@ Atualmente o aplicativo dá suporte apenas para:
 * [letras.mus.br]
 * [musica.com.br]
 * [cifraclub.com.br]
+
 Instale o aplicativo e aperte o play!
 
 Instalação
