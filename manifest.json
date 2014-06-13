@@ -1,5 +1,6 @@
 {
   "AppDescription": {
+    "pt-BR": "Letras de músicas fornecedas pelos maiores sites brasileiros do gênero.",
     "en": "Letras de músicas fornecedas pelos maiores sites brasileiros do gênero."
   },
   "AppIcon": {
@@ -11,7 +12,8 @@
     "300x300": "images/icons/icon-300x300.png"
   },
   "AppName": {
-    "en": "LetrasBR"
+    "en": "Letras BR",
+    "pt-BR": "Letras BR"
   },
   "BundleIdentifier": "letrasbr",
   "BundleType": "Application",
@@ -39,7 +41,9 @@
     "it",
     "nl",
     "pl",
-    "zh-Hant"
+    "zh-Hant",
+    "pt-BR",
+    "pt-pt"
   ],
   "VendorIdentifier": "com.leonardoweslei.letrasbr"
 }

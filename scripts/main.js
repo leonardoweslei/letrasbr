@@ -1,109 +1,114 @@
 require(['$api/models','$views/image#Image'], function(models, Image) {
-	var doCoverForAlbum = function(track) {
-		track = models.Track.fromURI(track);
-		var image = Image.forTrack(track, {width: '100%', height: '100%', player: false});
-		document.getElementById('Cover').innerHTML="";
-		document.getElementById('Cover').appendChild(image.node);
-	};
-	var slugify=function(str){
-		str = str.replace("&",'e')
-		str = str.replace(/^\s+|\s+$/g, ''); // trim
+	var slugify = function(str) {
+		str = str.replace(/^\s+|\s+$/g, '');
 		str = str.toLowerCase();
-
-		var from = "àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ·/_,:;";
-		var to   = "aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY------";
-		for (var i=0, l=from.length ; i<l ; i++) {
+		var from = "àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ·/_,:;&";
+		var to   = "aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY------e";
+		for (var i = 0, l = from.length; i < l ; i++) {
 			str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
 		}
 		str = str.replace(/[^a-z0-9 -]/g, '')
-		.replace(/\s+/g, '-')
-		.replace(/-+/g, '-');
+		str = str.replace(/\s+/g, '-');
+		str = str.replace(/-+/g, '-');
 		return str;
 	}
-	function strip_tags(html)
-	{
-		var tmp = document.createElement("DIV");
+	var strip_tags = function(html) {
+		var tmp = document.createElement("div");
 		tmp.innerHTML = html;
-		return tmp.textContent || tmp.innerText;
+		return tmp.textconteudo || tmp.innerText;
 	}
-	function getURL(url){
+	var getURL = function(url) {
+		var data = "";
 		$.ajaxSetup({async: false});
-		var data="";
-		$.get(url,function(d){
-			data=d;
-		});
-		if(typeof data=="undefined"){
-			data="";
-		}
+		$.get(url, function(d) { data = d; });
+		if(typeof data == "undefined")
+			data = "";
 		return data;
 	}
-	currentTrack = function(track){
-		document.getElementById('Cover').innerHTML="";
-		document.getElementById('title').innerHTML="";
-		document.getElementById('artist').innerHTML="";
-		document.getElementById('lyrics').innerHTML="";
-
-		if(typeof track =="undefined"){
+	var carregaMusica = function(track) {
+		$('#capa, #titulo, #artista, #letra').html("");
+		if (typeof track == "undefined")
+			return;
+		var track = models.Track.fromURI(track.uri);
+		var image = Image.forTrack(track, {width: '100%', height: '100%', player: false});
+		$('#titulo').html(track.name);
+		$('#capa').append(image.node);
+		var artists = track.artists;
+		var artistas = [];
+		for (var i = 0; i < artists.length; i++) {
+			artistas.push(artists[i].name);
+		}
+		var isAd = false;
+		try { isAd = track.data.isAd; }
+		catch (err) { isAd = false; }
+		$('#artista').html(artistas.join(', '));
+		if (track.name == "Spotify" || artistas[0] == "Spotify" || isAd) {
+			$("#letra").html("<br><br>" +
+							 "<h1>:-|</h1>" +
+							 "<br><br>");
 			return;
 		}
-		document.getElementById('title').innerHTML=track.name;
-		doCoverForAlbum(track.uri);
-		document.getElementById('artist').innerHTML="";
-		var artists=track.artists;
-		var artist=[];
-		for(var i = 0; i < artists.length; i++){
-			artist.push(artists[i].name);
-		}
-		var isAd=false;
-		try {
-			isAd=track.data.isAd;
-		}
-		catch(err) {
-			isAd=false;
-		}
-		document.getElementById('artist').innerHTML=artist.join(', ');
-		if(track.name=="Spotify" || isAd){
-			$("#lyrics").html("<br><br><br><h1>:-|</h1><br><br>");
-			return;
-		}
-		trackname=track.name.split(/[\(\)\-]/g)
-		trackname=trackname[0];
-		var url = slugify(artist[0])+'/'+slugify(trackname);
-		var url2 = slugify(artist[0])+'/m/'+slugify(trackname)+"/letra.html";
-		var fontes=new Array(
-			["vagalume.com.br",'http://www.vagalume.com.br/'+url+".html",'#lyr_original'],
-			["letras.mus.br",'http://letras.mus.br/'+url+"/",'#div_letra'],
-			["musica.com.br",'http://musica.com.br/artistas/'+url2,'.letra'],
-			["cifraclub.com.br",'http://www.cifraclub.com.br/'+url+"/",' #ct_cifra']
-		);
-		for(var i in fontes){
-			var f=fontes[i];
-			var url=f[1]+" "+f[2];
-			var d=getURL(url);
-			console.log(url);
-			var dx=strip_tags(d);
-			dx=dx.replace(/\s/g,"");
-			console.log(dx)
-			if(d!="" && dx!=""){
-				if(f[0]=='cifraclub.com.br'){
-					d='<pre>'+d+'</pre>';
+		var musica = track.name.split(/[\(\)\-]/g)[0];
+		var sMusica = slugify(musica);
+			var fontes = new Array(
+				["vagalume.com.br", "http://www.vagalume.com.br/__artista/" + sMusica + ".html", "#lyr_original"],
+				["letras.mus.br", "http://letras.mus.br/__artista/" + sMusica + "/", "#div_letra"],
+				["musica.com.br", "http://musica.com.br/artistas/__artista/m/" + sMusica + "/letra.html", '.letra'],
+				["cifraclub.com.br", "http://www.cifraclub.com.br/__artista/" + sMusica + "/", '#ct_cifra']
+			);
+		for (var i in artistas) {
+			var sArtista = slugify(artistas[i]);
+			for (var j in fontes) {
+				var f = fontes[j];
+				var url = f[1].replace("__artista",sArtista) + " " + f[2];
+				var d = getURL(url);
+				var dx = strip_tags(d);
+				dx = dx.replace(/\s/g,"");
+				if (d != "" && dx != "") {
+					if (f[0] == 'cifraclub.com.br')
+						d = "<pre>" + d + "</pre>";
+					$("#letra").html("<br>" + d + "<br>" +
+									 "<a href=\"" + f[1] + "\">Fonte: " + f[0] + "</a>");
+					if (f[0] == 'cifraclub.com.br')
+						$("#letra b").remove();
+					return;
 				}
-				$("#lyrics").html('<br>'+d+'<br><a href="'+f[1]+'">Fonte: '+f[0]+'</a>');
-				if(f[0]=='cifraclub.com.br'){
-					$("#lyrics b").remove();
-				}
-				break;
 			}
 		}
-		if($("#lyrics").html()==""){
-			$("#lyrics").html("<br><br><br><h1>:(</h1><br><br>");
-		}
-
+		$("#letra").html("<br><br>" +
+						 "<h1>:(</h1>" +
+						 "<br><br>");
 	}
 	models.player.load('track').done(function(p) {
-		currentTrack(p.track);
+		carregaMusica(p.track);
 	});
 	models.player.addEventListener('change', function(p) {
-		currentTrack(p.data.track);
+		carregaMusica(p.data.track);
 	});
+	var tamanho = [32, 24, 18];
+	var elementos = ["h1","h2","#letra"];
+	$("#aumentar").click(function(){
+		for (var i in elementos) {
+			var t=parseInt($(elementos[i]).css("font-size"))||tamanho[i];
+			t+=1;
+			if(t>tamanho[i]+10)
+				t=tamanho[i]+10;
+			$(elementos[i]).css("font-size",t+"px");
+		};
+	})
+	$("#diminuir").click(function(){
+		for (var i in elementos) {
+			var t=parseInt($(elementos[i]).css("font-size"))||tamanho[i];
+			t-=1;
+			if(t<tamanho[i]-8)
+				t=tamanho[i]-8;
+			$(elementos[i]).css("font-size",t+"px");
+		};
+	})
+	$("#normal").click(function(){
+		for (var i in elementos) {
+			var t=tamanho[i];
+			$(elementos[i]).css("font-size",t+"px");
+		};
+	})
 });
