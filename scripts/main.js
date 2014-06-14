@@ -26,13 +26,17 @@ require(['$api/models','$views/image#Image'], function(models, Image) {
 		return data;
 	}
 	var carregaMusica = function(track) {
-		$('#capa, #titulo, #artista, #letra').html("");
-		if (typeof track == "undefined")
+		if (typeof track == "undefined"){
+			$('#capa, #titulo, #artista, #letra').html("");
 			return;
+		}
 		var track = models.Track.fromURI(track.uri);
-		var image = Image.forTrack(track, {width: '100%', height: '100%', player: false});
+		if($('#titulo').html()==track.name)
+			return;
+		$('#capa, #titulo, #artista, #letra').html("");
+		image = Image.forTrack(track, {width: '100%', height: '100%', player: false});
 		$('#titulo').html(track.name);
-		$('#capa').append(image.node);
+		$('#capa').fadeOut().html('').append(image.node).fadeIn();
 		var artists = track.artists;
 		var artistas = [];
 		for (var i = 0; i < artists.length; i++) {
