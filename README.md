@@ -2,6 +2,7 @@ Letras BR
 =========
 
 O Letras BR busca as letras da música em execução no Spotify através dos principais sites brasileiros do gênero.
+
 Atualmente o aplicativo dá suporte apenas para:
 
 * [vagalume.com.br]
