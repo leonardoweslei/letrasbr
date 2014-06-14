@@ -21,7 +21,7 @@ Instalação
 4. Descompacte o arquivo `master.zip`.
 4. Renomeie a pasta `letrasbr-master` para `letrasBR`.
 5. Se ainda não o possuir em seu computador, baixe o cliente de desktop do [Spotify](http://spotify.com/download).
-6. Abra o Spotify e digite [`spotify:app:letrasbr`](spotify:app:letrasbr) na caixa de pesquisa. 
+6. Abra o Spotify e digite `[spotify:app:letrasbr](spotify:app:letrasbr)` na caixa de pesquisa. 
 7. Se o aplicativo não carregar, reinicie Spotify o Spotify e digite novamente [`spotify:app:letrasbr`](spotify:app:letrasbr) na caixa de pesquisa.
 
 Versão
@@ -32,7 +32,6 @@ Versão
 Sobre
 --------------
 
-O Letras BR foi desenvolvido com base no .
 Foram usados neste projeto:
 * [Manual de desenvolvimento de aplicativos](https://developer.spotify.com/technologies/apps/)
 * [Tutorial de desenvolvimento de aplicativos](https://github.com/spotify/apps-tutorial)
