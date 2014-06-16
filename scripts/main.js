@@ -72,7 +72,7 @@ require(['$api/models','$views/image#Image'], function(models, Image) {
 					if (f[0] == 'cifraclub.com.br')
 						d = "<pre>" + d + "</pre>";
 					$("#letra").html("<br>" + d + "<br>" +
-									 "<a href=\"" + f[1] + "\">Fonte: " + f[0] + "</a>");
+									 "<a href=\"" + url + "\">Fonte: " + f[0] + "</a>");
 					if (f[0] == 'cifraclub.com.br')
 						$("#letra b").remove();
 					return;
