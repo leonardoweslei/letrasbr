@@ -52,7 +52,8 @@ require(['$api/models','$views/image#Image'], function(models, Image) {
 							 "<br><br>");
 			return;
 		}
-		var musica = track.name.split(/[\(\)\-]/g)[0];
+		var musica = track.name.split(/[\(\)\-]/g);
+		musica = track.name[0]=="(" ? musica[1] : musica[0];
 		var sMusica = slugify(musica);
 			var fontes = new Array(
 				["vagalume.com.br", "http://www.vagalume.com.br/__artista/" + sMusica + ".html", "#lyr_original"],
